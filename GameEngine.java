@@ -1,15 +1,19 @@
+import java.util.*;
+
+
 public class GameEngine
 {
     private Parser aParser;
     private Room aCurrentRoom;
     private UserInterface gui;
-    private Room aLastRoom;
+    private Stack <Room> aPile2Room;
     /**
      * Constructor for objects of class GameEngine
      */
     public GameEngine()
     {
         aParser = new Parser();
+        aPile2Room = new Stack<Room>();
         createRooms();
     }
 
@@ -150,6 +154,8 @@ public class GameEngine
             else
                 endGame();
         }
+        else if (commandWord.equals("back"))this.back();
+        
     }
 
     // implementations of user commands:
@@ -189,6 +195,7 @@ public class GameEngine
         if (nextRoom == null)
             gui.println("There is no door!");
         else {
+            this.aPile2Room.push(aCurrentRoom);
             aCurrentRoom = nextRoom;
             gui.println(aCurrentRoom.getLongDescription());
             if(aCurrentRoom.getImageName() != null)
@@ -220,15 +227,15 @@ public class GameEngine
     
     private void back()
     {
-        Room vback = new Room (aCurrentRoom);
-        if(aLastRoom==null)
-        {
-            this.gui.println("you are in the first room you idiot!");
+        if(!aPile2Room.empty()){
+            aCurrentRoom=aPile2Room.pop();
+            this.gui.println(this.aCurrentRoom.getLongDescription());
+            if(this.aCurrentRoom.getImageName()!=null)
+            {
+                this.gui.showImage(this.aCurrentRoom.getImageName());
+            }
         }
-        else if (aLastRoom==aCurrentRoom) 
-        {
-            this.aCurrentRoom.goRoom();
-        }
+        else gui.println("you are in the first room you moron");
     }
 
 
