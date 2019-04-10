@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Room
+comment1.params=pDescription\ pImage
+comment1.target=Room(java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ getDescription()
+comment3.params=pDirection\ pNeighbor
+comment3.target=void\ setExit(java.lang.String,\ Room)
+comment4.params=pDirection
+comment4.target=Room\ getExit(java.lang.String)
+comment5.params=
+comment5.target=java.lang.String\ getExitString()
+comment6.params=
+comment6.target=java.lang.String\ getLongDescription()
+comment7.params=
+comment7.target=java.lang.String\ getImageName()
+comment8.params=pName\ pItem
+comment8.target=void\ setItem(java.lang.String,\ Item)
+numComments=9
