@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=ItemList
+comment0.text=\n\ Write\ a\ description\ of\ class\ ItemList\ here.\n\n\ @author\ (Sitbon\ Vadim)\n\ \n
+comment1.params=
+comment1.target=ItemList()
+comment1.text=\n\ Create\ an\ item\ list\n
+comment2.params=pDesc\ pItem
+comment2.target=void\ addItem(java.lang.String,\ Item)
+comment2.text=\n\ Ajoute\ un\ Item\n
+comment3.params=pNameItem
+comment3.target=boolean\ containsItem(java.lang.String)
+comment3.text=\n\ V\u00E9rifie\ si\ l'item\ en\ param\u00E8tre\ est\ dans\ la\ liste\ par\ rapport\ \u00E0\ son\ nom\n
+comment4.params=pNomItem
+comment4.target=Item\ getItem(java.lang.String)
+comment4.text=\n\ Renvoie\ l'item\ de\ la\ liste\ en\ fonction\ de\ son\ nom\ \ \ \ \ \ \ \ \ \ \n
+comment5.params=
+comment5.target=java.util.HashMap\ getItemList()
+comment6.params=pItem
+comment6.target=void\ removeItem(Item)
+comment6.text=\n\ Supprime\ l'item\ de\ la\ liste\n
+comment7.params=
+comment7.target=java.lang.String\ toString()
+comment7.text=\n\ Retourne\ une\ chaine\ de\ caractere\ contenant\ la\ liste\ des\ items\n
+comment8.params=item
+comment8.target=Item\ findItem(java.lang.String)
+comment8.text=\n\ Fonction\ permettant\ de\ retrouver\ un\ item\ dans\ l'inventaire\n
+numComments=9

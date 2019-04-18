@@ -1,12 +1,17 @@
-import java.util.*;
-
+import java.util.Stack;
+import java .util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import javax.swing.JFileChooser;
 
 public class GameEngine
 {
     private Parser aParser;
     private Room aCurrentRoom;
     private UserInterface gui;
+    
     private Stack <Room> aPile2Room;
+    private Player aPlayer;
     /**
      * Constructor for objects of class GameEngine
      */
@@ -14,6 +19,7 @@ public class GameEngine
     {
         aParser = new Parser();
         aPile2Room = new Stack<Room>();
+        aPlayer = new Player("dude");
         createRooms();
     }
 
@@ -35,6 +41,7 @@ public class GameEngine
        this.gui.println("you are in the entrance of the complex");
        this.gui.println("Exits: South");
        printLocationInfo();
+       this.gui.showImage(this.aPlayer.getCurrentRoom().getImageName());
     }
 
     /**
@@ -43,18 +50,18 @@ public class GameEngine
     private void createRooms()
     {  
       // déclaration des lieux
-      Room vStart=new Room("ascenceur", "Images/ascenceur.png");
-      Room vCouloir1=new Room("couloir dangereux1","Images/couloir1.png");
-      Room vCouloir2=new Room("couloir dangereux2","Images/couloir2.png");
-      Room vSas=new Room("Salle de controle de SCP","Images/salle de controle.jpg");
-      Room vCarrefour=new Room ("salle de controle","Images/salledecontr.jpg");
-      Room vSalleSCP_682=new Room("salle dangereuse1","Images/salle SCP_682.jpg");
-      Room vSalleSCP_082=new Room("salle dangereuse2","Images/salle SCP_082.jpg");
-      Room vSalleSCP_049=new Room("salle dangereuse3","Images/salle SCP_049.jpg");
-      Room vSalleSCP_076=new Room("salle dangereuse4","Images/salle SCP_076.jpg");
-      Room vSalleCourant=new Room("salle de l'électricité","Images/courant.jpg");
-      Room vLaboratoire=new Room("Laboratoire","Images/labo1.png");
-      Room vRéserve=new Room("réserve du complexe","Images/reserve.jpg");
+      Room vStart=new Room("the lift", "Images/ascenceur.png");
+      Room vCouloir1=new Room("the east corridor","Images/couloir1.png");
+      Room vCouloir2=new Room("the west corridor","Images/couloir2.png");
+      Room vSas=new Room("the sas","Images/sas.jpg");
+      Room vCarrefour=new Room ("control room of scp","Images/salledecontr.jpg");
+      Room vSalleSCP_682=new Room("the SCP_682 room","Images/salle SCP_682.jpg");
+      Room vSalleSCP_082=new Room("the SCP_082 room","Images/salle SCP_082.jpg");
+      Room vSalleSCP_049=new Room("the SCP_049 room","Images/salle SCP_049.jpg");
+      Room vSalleSCP_076=new Room("the SCP_076 room","Images/salle SCP_076.jpg");
+      Room vSalleCourant=new Room("the electricity room","Images/courant.jpg");
+      Room vLaboratoire=new Room("Laboratory","Images/labo1.png");
+      Room vRéserve=new Room("the supply room","Images/reserve.jpg");
       
       // Position des sorties
       vCouloir1.setExit("North",vSalleSCP_049);
@@ -68,43 +75,43 @@ public class GameEngine
       vSalleCourant.setExit("West",vRéserve);
       vCouloir2.setExit("North",vSalleSCP_682);
       vCouloir2.setExit("South",vSalleSCP_076);
-      vCouloir2.setExit("East",vSas);
+      vCouloir2.setExit("West",vSas);
       vCouloir2.setExit("up",vCarrefour);
       vSalleSCP_682.setExit("South",vCouloir2);
       vSalleSCP_082.setExit("North",vSas);
       vSalleSCP_076.setExit("North",vCouloir2);
       vSalleSCP_049.setExit("South",vCouloir1);
-      vSas.setExit("West",vCouloir2);
+      vSas.setExit("East",vCouloir2);
       vSas.setExit("South",vSalleSCP_082);
-      vLaboratoire.setExit("East",vLaboratoire);
+      vLaboratoire.setExit("West",vCouloir1);
       vStart.setExit("South",vCarrefour);
-      vCarrefour.setExit("North",vCarrefour);
+      vCarrefour.setExit("North",vStart);
       
          // déclaration objets
       
-      Item vLampeTorche = new Item("LampeTorche",0.4);
-      Item vFlare = new Item("fusée éclairante",0.3);
+      Item vLampeTorche = new Item("flashlight",0.4);
+      Item vFlare = new Item("flare",0.3);
       Item vRadar= new Item("radar",1);
-      Item vCarteZ= new Item("Carte Z",0.1);
-      Item vCarteB= new Item("Carte B",0.1);
-      Item vFusible1= new Item ("fusible 1",0.2);
-      Item vFusible2= new Item ("fusible 2",0.2);
-      Item vFusible3= new Item ("fusible 3",0.2);
-      Item vFusible4= new Item ("fusible 4",0.2);
+      Item vCarteZ= new Item("Card Z",0.1);
+      Item vCarteB= new Item("Card B",0.1);
+      Item vFusible1= new Item ("fuse 1",0.2);
+      Item vFusible2= new Item ("fuse 2",0.2);
+      Item vFusible3= new Item ("fuse 3",0.2);
+      Item vFusible4= new Item ("fuse 4",0.2);
       Item vC4=new Item("C4",3);
-      Item vWaterBot=new Item("bouteille d'eau",1);
-      Item vCésium=new Item("Césium",1);
-      Item vModulePirat=new Item("craftable et servant à faire une énigme",4);
-      Item vEthanol=new Item("Flacon d'éthanol",2);
-      Item vTournevis=new Item("Tournevis",0.5);
-      Item vChalumeau=new Item("Chalumeau",3);
-      Item vSchémaFusible=new Item("SchémaFusible",0.1);
-      Item vSchémaC4=new Item("SchémaC4",0.1);
-      Item vSchémaModPirt=new Item("Schéma Module de piratage",0.1);
-      Item vSchémaCouvert=new Item("schéma couverture de dissimulation",0.1);
-      Item vCouverture=new Item("couverture de dissimulation",2);
-      Item vCables=new Item("Cables",2);
-      Item vCircuitImprimé=new Item("Circuit Imprimé",2);
+      Item vWaterBot=new Item("water bottle",1);
+      Item vCésium=new Item("Cesium",1);
+      Item vModulePirat=new Item("hack module",4);
+      Item vEthanol=new Item("ethanol becher",2);
+      Item vTournevis=new Item("Screwdriver",0.5);
+      Item vChalumeau=new Item("blow torch",3);
+      Item vSchémaFusible=new Item("Fuse pattern",0.1);
+      Item vSchémaC4=new Item("C4 pattern",0.1);
+      Item vSchémaModPirt=new Item("hack module pattern",0.1);
+      Item vSchémaCouvert=new Item("dissimulation scarf pattern",0.1);
+      Item vCouverture=new Item("dissimulation scarf",2);
+      Item vCables=new Item("power cables",2);
+      Item vCircuitImprimé=new Item("printed circuits",2);
       
          // Position des objets
       vCarrefour.setItem("Lampet",vLampeTorche);
@@ -122,6 +129,9 @@ public class GameEngine
       vSalleCourant.setItem("fusible3",vFusible3);
       vSalleSCP_076.setItem("Chalumeau",vChalumeau);
       
+      //vCarrefour.getItemList().addItem(new Item( "flashlight",0.4));
+      
+      this.aPlayer.setRoom(vStart);
       
       // Lieu courant
       this.aCurrentRoom = vStart; 
@@ -154,8 +164,52 @@ public class GameEngine
             else
                 endGame();
         }
-        else if (commandWord.equals("back"))this.back();
-        
+        else if (commandWord.equals("look"))
+        {
+            this.look();
+        }
+        else if (commandWord.equals("back"))
+        {
+            this.back();
+        }
+        else if (commandWord.equals("test"))
+        {
+            if(command.hasSecondWord())
+            {
+                lecture(command.getSecondWord() +".txt");
+            }
+            else
+            {
+                gui.println("What do you want to test ?");
+            }
+        }
+        else if (commandWord.equals("drop"))
+        {
+            if(command.hasSecondWord())
+            {
+                gui.println(this.aPlayer.drop(command.getSecondWord()));
+            }
+            else
+            {
+                gui.println("what do you want to drop ?");
+            }
+        }
+        else if (commandWord.equals("take"))
+        {
+            if(command.hasSecondWord())
+            {
+                gui.println(this.aPlayer.take(command.getSecondWord()));
+            }
+            else
+            {
+                gui.println("what do you want to take ?");
+            }
+        }
+           
+        else if (commandWord.equals("back"))
+        {
+            this.back();
+        }
     }
 
     // implementations of user commands:
@@ -211,7 +265,7 @@ public class GameEngine
     
     public void printLocationInfo()
     {
-        this.gui.println("vous etes dans " +aCurrentRoom.getDescription());
+        this.gui.println("you are in " +aCurrentRoom.getDescription());
 
     }
     
@@ -224,6 +278,28 @@ public class GameEngine
     {
         this.gui.println("You have eaten now and you are not hungry any more");
     }
+    
+    public void lecture (final String pNameFile)
+    {
+        JFileChooser Files = new JFileChooser(".");
+        if (Files.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+        {
+            return;
+        }
+        try
+        {
+            Scanner vScan = new Scanner(Files.getSelectedFile());
+            while(vScan.hasNextLine())
+            {
+                String vLine = vScan.nextLine();
+                interpretCommand(vLine);
+            }
+        }
+        catch(final FileNotFoundException pFile)
+        {
+            gui.println("File not found");
+        }
+    }    
     
     private void back()
     {
@@ -238,5 +314,44 @@ public class GameEngine
         else gui.println("you are in the first room you moron");
     }
 
-
+    public void test(final Command pFichier)
+    {
+        try
+        {
+            Scanner vSac = new Scanner (new File (pFichier.getSecondWord()+".txt"));
+            while(vSac.hasNextLine())
+            {
+                String vCommand = vSac.nextLine();
+                this.interpretCommand(vCommand);
+            }
+        }
+            catch(final FileNotFoundException pE)
+            {
+                this.gui.println(pE.getMessage());
+        }
+            
+        }
+        
+    /**
+     * Take
+     */
+    public void take(final String pNom){
+        if(this.aPlayer.getItems().containsKey(pNom)){
+            Item vItem = this.aPlayer.getItem(pNom);
+            this.aPlayer.take(pNom);
+            this.gui.println("You have taken the item" + vItem.getDescription());
+           }
+           else this.gui.println("What do you want to take ?");
+        }
+    /**
+     * Drop
+     */
+    public void drop(final String pNom){
+        if(this.aPlayer.getItems().containsKey(pNom)){
+            Item vItem = this.aPlayer.getItem(pNom);
+            this.aPlayer.drop(pNom);
+            this.gui.println("You have drown the item" + vItem.getDescription());
+           }
+           else this.gui.println("What do you want to drop ?");
+        }
 }

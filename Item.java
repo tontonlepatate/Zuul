@@ -19,13 +19,18 @@ public class Item
         this.aDescription = pDescription;
         this.aWeight=pWeight;
     } // Item()
+    
+    public double getWeight()
+    {
+        return this.aWeight;
+    }  
 
     public String getDescription()
     {
         return this.aDescription;
     }
     
-    public String getWeight()
+    @Override public String toString()
     {
         return this.aDescription + " pèse " + this.aWeight +"Kg" ;
     }

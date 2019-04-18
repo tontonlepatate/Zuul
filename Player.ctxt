@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=Player
+comment1.params=pName
+comment1.target=Player(java.lang.String)
+comment1.text=\n\ Default\ constructor\ for\ objects\ of\ class\ Player\n
+comment10.params=pName
+comment10.target=java.lang.String\ drop(java.lang.String)
+comment11.params=
+comment11.target=ItemList\ getItemList()
+comment2.params=
+comment2.target=java.lang.String\ getName()
+comment3.params=
+comment3.target=Room\ getCurrentRoom()
+comment4.params=pNextRoom
+comment4.target=void\ setRoom(Room)
+comment5.params=
+comment5.target=java.util.Stack\ getPreviousRooms()
+comment6.params=
+comment6.target=void\ avantBack()
+comment7.params=
+comment7.target=java.util.HashMap\ getItems()
+comment8.params=pgm
+comment8.target=Item\ getItem(java.lang.String)
+comment9.params=pName
+comment9.target=java.lang.String\ take(java.lang.String)
+numComments=12
