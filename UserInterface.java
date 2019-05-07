@@ -4,12 +4,9 @@ import java.awt.event.*;
 import java.net.URL;
 import java.awt.image.*;
 
+
 /**
- * This class implements a simple graphical user interface with a text entry
- * area, a text output area and an optional image.
- * 
- * @author Michael Kolling (DB edited)
- * @version 1.0 (Jan 2003)
+ *
  */
 public class UserInterface implements ActionListener
 {
@@ -24,7 +21,7 @@ public class UserInterface implements ActionListener
      * (an object processing and executing the game commands) is
      * needed.
      * 
-     * @param gameEngine  The GameEngine object implementing the game logic.
+     * @param pGameEngine  The pGameEngine object implementing the game logic.
      */
     public UserInterface( final GameEngine pGameEngine )
     {
@@ -34,6 +31,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area.
+     * @param pText texte 
      */
     public void print( final String pText )
     {
@@ -43,6 +41,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Print out some text into the text area, followed by a line break.
+     * @param pText texte
      */
     public void println( final String pText )
     {
@@ -51,6 +50,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Show an image file in the interface.
+     * @param pImageName nom de l'image
      */
     public void showImage( final String pImageName )
     {
@@ -66,6 +66,7 @@ public class UserInterface implements ActionListener
 
     /**
      * Enable or disable input in the input field.
+     * @param pOnOff on off
      */
     public void enable( final boolean pOnOff )
     {
@@ -90,10 +91,10 @@ public class UserInterface implements ActionListener
 
         JPanel vPanel = new JPanel();
         this.aImage = new JLabel();
-        JButton vNorth= new JButton("North");
-        JButton vSouth= new JButton("South");
-        JButton vEast= new JButton("East");
-        JButton vWest= new JButton("West");
+        JButton vNorth= new JButton("forward");
+        JButton vSouth= new JButton("behind");
+        JButton vEast= new JButton("right");
+        JButton vWest= new JButton("left");
         JButton vhelp= new JButton("help");
         JButton vquit= new JButton("quit");
         JButton vup= new JButton("up");
@@ -139,6 +140,9 @@ public class UserInterface implements ActionListener
         vup.addActionListener(this);
         vhelp.addActionListener(this);
         vquit.addActionListener(this);
+        
+        /*this.aTimer = new jLabel("timer");
+        vPanel1.add(this.aTimer);*/
 
         this.aEntryField.addActionListener( this );
 
@@ -149,19 +153,20 @@ public class UserInterface implements ActionListener
 
     /**
      * Actionlistener interface for entry textfield.
+     * @param pE lien avec action command
      */
     public void actionPerformed( final ActionEvent pE ) 
     {
-        if(pE.getActionCommand().equals("North"))
+        if(pE.getActionCommand().equals("forward"))
         {
             this.aEngine.interpretCommand("go "+pE.getActionCommand());
-        }else if (pE.getActionCommand().equals("South"))
+        }else if (pE.getActionCommand().equals("behind"))
         {
             this.aEngine.interpretCommand("go "+pE.getActionCommand());
-        }else if (pE.getActionCommand().equals("East"))
+        }else if (pE.getActionCommand().equals("right"))
         {
             this.aEngine.interpretCommand("go "+pE.getActionCommand());
-        }else if (pE.getActionCommand().equals("West"))
+        }else if (pE.getActionCommand().equals("left"))
         {
             this.aEngine.interpretCommand("go "+pE.getActionCommand());
         }else if (pE.getActionCommand().equals("quit"))

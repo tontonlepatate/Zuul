@@ -1,35 +1,86 @@
 import java.util.Stack;
 import java.util.HashMap;
+import java.util.Set;
+
+/**
+ * 
+ * Cette classe permet de gérer tout ce qui concerne le joueur
+ * notamment les différents déplacements dans les Room.
+ * @author Vadim Sitbon
+ * @version 03.05.2019
+ */
 public class Player
  { 
     private String aName;
     private Room aCurrentRoom;
     private Stack<Room> aPreviousRooms;
-    private ItemList aIList;
-    public static double A_Number=8.00;
+    private ItemList aInvtPlayer;
     private double aCurrentNumber;
-    private HashMap<String,Item> aH;
     /**
      * Default constructor for objects of class Player
+     * @param pName nom
      */
-    public Player(final String pName)
+    public Player(final String pName, final Room pCurrentRoom)
     {
         this.aName = pName;
-        this.aCurrentRoom=null;
+        this.aCurrentRoom=pCurrentRoom;
         this.aPreviousRooms = new Stack<Room>();
-        this.aH = new HashMap<String,Item>();
+        this.aCurrentNumber = 10.0;
+        this.aInvtPlayer = new ItemList();
     } // Player()
+    
+    /**
+     * Accesseur pour l'attribut aCurrentNumber
+     * @return l'attribut ( sa valeur ) power
+     */
+    public double getPowa()
+    {
+       return this.aCurrentNumber;
+    }
+    
+    /**
+    * Permet de modifier la valeur de l'attribut CurrentNumber (charge max)
+    */
+    public void setPowa(final double pPowa){
+       this.aCurrentNumber = pPowa;
+    }
+    
+    /**
+    *Permet de modifier la Room actuelle
+    *@param pCurrentRoom  Room passée pour changer la Room actuelle
+    */
+    public void setCurrentRoom(final Room pCurrentRoom)
+    {
+       this.aCurrentRoom = pCurrentRoom;
+    }
+    
+     /**
+     * Gère de déplacement de Room du Player 
+     * @param pNextRoom  pour acutaliser la valeur de la Room actuelle
+     */
+    public void changeRoom(final Room pNextRoom)
+    {
+       this.setPreviousRooms(this.aCurrentRoom);
+       this.setCurrentRoom(pNextRoom);
+    }
     
     public String getName()
     {
         return this.aName;
     }
     
+    /**
+    * Permet d'avoir la Room dans laquelle se trouve le joueur
+    * @return La Room actuelle
+    */
     public Room getCurrentRoom()
     {
         return this.aCurrentRoom;
     }
     
+    /**
+    *@param pNextRoom porochaine salles
+    */
     public void setRoom(final Room pNextRoom)
     {
         this.aCurrentRoom = pNextRoom;
@@ -45,56 +96,41 @@ public class Player
         this.aCurrentRoom = this.aPreviousRooms.pop();
     }
     
-    public HashMap<String,Item> getItems()
+    /**
+     * Permet d'ajouter sur la pile la dernière Room visitée.
+     * @param pPreviousRoom  Room a ajouter sur la pile
+     */
+    public void setPreviousRooms(final Room pPreviousRooms)
     {
-        return this.aH;
+       this.aPreviousRooms.push(pPreviousRooms);
     }
     
-    public Item getItem (final String pgm)
+     /**
+     * Accesseur pour l'inventaire du joueur
+     * @return l'inventaire su joueur
+     */
+    public ItemList getInventoryPlayer()
     {
-        return this.aH.get(pgm);
+       return this.aInvtPlayer;
     }
     
-    public String take(final String pName)
+    /**
+    * Permet de savoir si la Room d'avant exitse ou pas
+    * ou si on est au début.
+    * @return True si la la Room d'avant sur la pile est vide ou non
+    */
+    public boolean isPreviousRoomEmpty()
     {
-        if (!this.aCurrentRoom.getItemList().containsItem(pName))
-        {
-           return "there isn't this in this Room bastard";
-        }
-        if(this.aIList.containsItem(pName))
-        {
-            return"you already have it";
-        }
-        Item vItem = this.aCurrentRoom.getItemList().getItem(pName);
-        if(this.aCurrentNumber + vItem.getWeight() > Player.A_Number)
-        {
-            return"you have too many object fucker!";
-        }
-        this.aIList.addItem(pName, this.getCurrentRoom().getItemList().getItem(pName));
-        this.aCurrentRoom.getItemList().removeItem(vItem);
-        this.aCurrentNumber += vItem.getWeight();
-        return "you have take "+vItem.getDescription();
+       return this.aPreviousRooms.empty();
     }
     
-    public String drop(final String pName){
-        if (!this.aCurrentRoom.getItemList().containsItem(pName))
-        {
-           return"there is already "+" in this room";
-        }
-        if(this.aIList.containsItem(pName))
-        {
-            return"you don't have it";
-        }
-        Item vItem = this.aCurrentRoom.getItemList().getItem(pName);
-        
-        this.aIList.addItem(pName, this.getCurrentRoom().getItemList().getItem(pName));
-        this.aCurrentRoom.getItemList().addItem(pName, this.getCurrentRoom().getItemList().getItem(pName));
-        this.aCurrentNumber -= vItem.getWeight();
-        return "you have drop "+vItem.getDescription();
-       }
-    
-    public ItemList getItemList()
+    /**
+     * Permet de vérifier si le poids de l'objet lui permet 
+     * de rentrer dans l'inventaire du joueur ou pas
+     * @return True si l'objet souhaité peut être ajouté dans l'inventaire
+     */
+    public boolean canTake(final Item pItem)
     {
-       return this.aIList;
+       return ((this.aInvtPlayer.getTotalInventoryWeight()+ pItem.getWeight())>=this.aCurrentNumber);
     }
 } // Player

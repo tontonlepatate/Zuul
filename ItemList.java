@@ -23,22 +23,28 @@ public class ItemList
     
     /**
      * Ajoute un Item
+     * @param pDes invtr
+     * @param pItem Item
      */
-    public void addItem(final String pDesc, final Item pItem)
+    public void addItem(final String pItemNam,final Item pItem)
     {
-        this.aItems.put(pDesc, pItem);
+        this.aItems.put(pItemNam, pItem);
     }
     
     /**
      * Vérifie si l'item en paramètre est dans la liste par rapport à son nom
+     * @param pNomItem nom Item
+     * @return boolean
      */
-    public boolean containsItem(final String pNameItem)
+    public boolean containsItem(final String pNomItem)
     {
-        return this.aItems.containsKey(pNameItem);
+        return this.aItems.containsKey(pNomItem);
     }
     
     /**
-     * Renvoie l'item de la liste en fonction de son nom          
+     * Renvoie l'item de la liste en fonction de son nom
+     * @param pNomItem nom de l'item
+     * @return Item un item
      */
     public Item getItem(final String pNomItem)
     {
@@ -51,18 +57,31 @@ public class ItemList
         return vItem;
     }
     
+    /**
+     * Permet de récupérer l'item souhaiter selon le nom entré
+     * @return l'item demandé par le joueur.
+     */
+    public Item getItemInventory(final String pItemName)
+    {
+        return this.getItem(pItemName);
+    }
+    
+    /**
+     * Permet de supprimer un item de l'inventaire dont il est question
+     */
+    public void removeItemInventory(final String pItemName)
+    {
+        this.aItems.remove(pItemName);
+    }
+    
+    /**
+     *@return HashMap list item
+     */
     public HashMap getItemList()
     {
         return this.aItems;
     }
     
-    /**
-     * Supprime l'item de la liste
-     */
-    public void removeItem(final Item pItem)
-    {
-        this.aItems.remove(pItem.getDescription());
-    }
     
     /**
      * Retourne un Set du nom des items contenues dans la liste
@@ -72,38 +91,21 @@ public class ItemList
         return this.aItems.keySet();
     }*/
     
-    /**
-     * Retourne une chaine de caractere contenant la liste des items
-     */
-    public String toString()
+    public String getItemString()
     {
-        Iterator vI = this.aItems.keySet().iterator();
-        StringBuilder vSB = new StringBuilder("");
-        if(!vI.hasNext())
+        String returnString = "";
+        Set<String> keys = aItems.keySet();
+        for(String item : keys)
         {
-            vSB.append("aucun objet");
-        } // if
-        else
-        {
-            vSB.append(this.aItems.get((String)vI.next()).getDescription());
-            while(vI.hasNext())
-            {
-                String vNom = (String)vI.next();
-                if(vI.hasNext())
-                {
-                    vSB.append(", ");
-                } // if
-                else
-                {
-                    vSB.append(" et ");
-                } // else
-                vSB.append(this.aItems.get(vNom).getDescription());
-            } // while
-        } // else
-        return vSB.toString();
+            returnString += item;
+        }
+        return returnString;
     }
+    
     /**
-     * Fonction permettant de retrouver un item dans l'inventaire
+     * Fonction permettant de savoir si l'on a l'item
+     * @param item l'item en question
+     * @return Item si l'item est ds l'invent
      */
     public Item findItem(String item)
     {
@@ -116,5 +118,37 @@ public class ItemList
             }
         }
         return null;
+    }
+    
+    public String getInventoryPlayerString() {
+        String vInventoryString = "Inventory:";
+        if(!this.aItems.isEmpty()){
+            Set<String> vItemNames = this.aItems.keySet(); 
+            for(String vItemName : vItemNames){
+                vInventoryString += "\n  " + this.aItems.get(vItemName).getItemDescription();
+            }
+
+            vInventoryString += "\nCarrying " + getTotalInventoryWeight();
+
+            return vInventoryString;
+        }      
+        else
+            return vInventoryString += "\n Is Empty";  
+
+    }
+    
+    /**
+     * Permet de récupérer le poids actuel total de l'inventaire du joueur.
+     * @return le poids total de l'inventaire
+     */
+    public double getTotalInventoryWeight() {
+        double vInventoryWeight = 0.0;
+        if(!this.aItems.isEmpty()){
+            Set<String> vItemNames = this.aItems.keySet(); 
+            for(String vItemName : vItemNames){
+                vInventoryWeight += this.aItems.get(vItemName).getWeight();
+            }
+         }
+         return vInventoryWeight;
     }
 } // ItemList

@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Door
+comment0.text=\n\ Classe\ pour\ cr\u00E9er\ des\ door\ \n\ donc\ faire\ les\ Trap\n\ \n
+comment1.params=pDoorName\ pLocked\ pCanGoBack
+comment1.target=Door(java.lang.String,\ boolean,\ boolean)
+comment1.text=\n\ \n\ \n
+comment2.params=
+comment2.target=boolean\ getLocked()
+comment2.text=\ \n\ Accesseur\ pour\ l'attribut\ Locked\n\ @return\ si\ la\ Door\ est\ ferm\u00E9e\ \u00E0\ cl\u00E9\ ou\ non\n
+comment3.params=
+comment3.target=boolean\ getCanGoBack()
+comment3.text=\n\ Accesseur\ pour\ l'attribut\ CanGoBack\n\ @return\ si\ on\ peut\ retourner\ en\ arri\u00E8re\ ou\ non\ en\ passant\ la\ Door\n
+numComments=4
