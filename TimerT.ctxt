@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=TimerT
-comment0.text=\n\ D\u00E9crivez\ votre\ classe\ Timer\ ici.\n\n\ @author\ (votre\ nom)\n\ @version\ (un\ num\u00E9ro\ de\ version\ ou\ une\ date)\n
+comment0.text=\nclasse\ cr\u00E9e\ pour\ le\ timer\ \n\n\ @author\ (sitbon\ vadim)\n\ @version\ (05/08/2019)\n
 comment1.params=
 comment1.target=TimerT()
 comment1.text=\n\ Constructeur\ d'objets\ de\ classe\ Timer\n

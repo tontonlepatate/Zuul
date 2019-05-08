@@ -27,7 +27,11 @@ public class GameEngine
         createRooms();
         /*this.aTim =500;*/
     }
-
+    
+    
+    /**
+     * methode setGui servant a initialiser gui
+     */
     public void setGUI(UserInterface userInterface)
     {
         gui = userInterface;
@@ -119,21 +123,21 @@ public class GameEngine
       Item vCircuitImprimé=new Item("printed circuits ",2,"circuits that are usefull to create items");
       
          // Position des objets 
-      vStart.getItemList().addItem("bravery ",vCourage);
-      vCarrefour.getItemList().addItem("flashlight ",vLampeTorche);
-      vLaboratoire.getItemList().addItem("alcool ",vEthanol);
-      vLaboratoire.getItemList().addItem("carte z ",vCarteZ);
-      vLaboratoire.getItemList().addItem("Schema fuse ",vSchémaFusible);
-      vLaboratoire.getItemList().addItem("cesium ",vCésium);
-      vLaboratoire.getItemList().addItem("Schema scarf ",vSchémaCouvert);
-      vSalleSCP_049.getItemList().addItem("carte b ",vCarteB);
-      vSas.getItemList().addItem("Radar ",vRadar);
-      vReserve.getItemList().addItem("Flare ",vFlare);
-      vReserve.getItemList().addItem("tournevis ",vTournevis);
-      vReserve.getItemList().addItem("Cables ",vCables);
-      vReserve.getItemList().addItem("Water Bottle ",vWaterBot);
-      vSalleCourant.getItemList().addItem("the third fuse ",vFusible3);
-      vSalleSCP_076.getItemList().addItem("blow torch ",vChalumeau);
+      vStart.addItem("bravery ",vCourage);
+      vCarrefour.addItem("flashlight ",vLampeTorche);
+      vLaboratoire.addItem("alcool ",vEthanol);
+      vLaboratoire.addItem("carte z ",vCarteZ);
+      vLaboratoire.addItem("Schema fuse ",vSchémaFusible);
+      vLaboratoire.addItem("cesium ",vCésium);
+      vLaboratoire.addItem("Schema scarf ",vSchémaCouvert);
+      vSalleSCP_049.addItem("carte b ",vCarteB);
+      vSas.addItem("Radar ",vRadar);
+      vReserve.addItem("Flare ",vFlare);
+      vReserve.addItem("tournevis ",vTournevis);
+      vReserve.addItem("Cables ",vCables);
+      vReserve.addItem("Water Bottle ",vWaterBot);
+      vSalleCourant.addItem("the third fuse ",vFusible3);
+      vSalleSCP_076.addItem("blow torch ",vChalumeau);
       
       this.aTab = new Room[12];
       this.aTab[0] = vCouloir2;
@@ -206,7 +210,7 @@ public class GameEngine
         }
         else if (commandWord.equals("drop"))
         {
-            if(command.hasSecondWord())
+            /*if(command.hasSecondWord())
             {
                 this.drop(command);
                 gui.println("you drop "+command);
@@ -214,25 +218,28 @@ public class GameEngine
             else
             {
                 gui.println("what do you want to drop ?");
-            }
+            }*/
+            gui.println("this action do not work sorry");
         }
+        
         else if (commandWord.equals("take"))
         {
-            if(command.hasSecondWord())
+            /*if(command.hasSecondWord())
             {
-                this.take(command);
+                this.aPlayer.take(command);
             }
             else
             {
-                gui.println("what do you want to take ?");
-            }
+                this.gui.println("what do you want to take ?");
+            }*/
+            gui.println("this action do not work sorry");
         }
            
         else if (commandWord.equals("back"))
         {
             this.back();
         }
-        else if (commandWord.equals("answer"))
+        /*else if (commandWord.equals("answer"))
         {
             if(command.hasSecondWord())
             {
@@ -243,7 +250,7 @@ public class GameEngine
             {
                 gui.println("...");
             }
-        }
+        }*/
     }
 
     public Room[] getTab()
@@ -268,17 +275,19 @@ public class GameEngine
         aParser.showCommands();
     }
     
-    public void answer(final String pAns)
+    /*public void answer(final String pAns)
     {
-        if (pAns.equals("benjamin_raynal"))
+        if (pAns.equals("denis_bureau"))
         {
-            this.gui.println("gagné");
+            this.gui.println("win I give you this as a prize");
+            this.aPlayer.addItem(vFuse1);
         }
         else
         {
-            this.gui.println("perdu");
+            this.gui.println("loose");
+            this.looseGame();
         }
-    }
+    }*/
 
     /** 
      * Try to go to one direction. If there is an exit, enter the new
@@ -303,6 +312,7 @@ public class GameEngine
             this.aPile2Room.push(aCurrentRoom);
             aCurrentRoom = nextRoom;
             gui.println(aCurrentRoom.getLongDescription());
+            
             if(this.aPlayer.getCurrentRoom().getDescription().equals("the SCP_049 room"))
                 {
                     this.gui.println("well well... you came into my room"+"\n"+"if you want to go back you have to solve my enigma"+"\n"+
@@ -321,17 +331,40 @@ public class GameEngine
         gui.enable(false);
     }
     
+    private void winGame()
+    {
+        gui.println("you win gg dude!");
+        this.endGame();
+    }
+    
+    private void looseGame()
+    {
+        gui.println("you loose dude T_T seriously ?");
+        this.endGame();
+    }
+    
+    /**
+     * méthode donnant des indication sur la location du joueur et l'environement et le joueur en lui meme
+     */
     public void printLocationInfo()
     {
         this.gui.println("you are in " +aCurrentRoom.getLongDescription());
 
     }
     
+    /**
+     * méthode donnant des indication sur l'environement et le joueur en lui meme 
+     * (méthode assez similaire a la précedente mais utilisable pour la commmande look)
+     */
+    
     private void look()
     {
         this.gui.println(this.aCurrentRoom.getLongDescription());
     }
     
+    /**
+     * méthode inutile tant que l'on ne peut ramassezz
+     */
     private void eat()
     {
         this.gui.println("You have eaten now and you are not hungry any more");
@@ -396,32 +429,7 @@ public class GameEngine
             
     }
         
-    /**
-     * 
-     * Permet de prendre un objet au choix disponible dans une Room
-     * Limite de poids pour l'inventaire du joueur.
-     * @param pCommande commande entrée par le joueur.
-     */
-    private void take(Command pCommande)
-    {
-        String vItemName = pCommande.getSecondWord();
-        if(this.aPlayer.getCurrentRoom().getItemList().containsItem(vItemName)){
-            gui.println("There is no that item in this room dude!");
-            return;
-        }//if()
-         
-        else if(this.aPlayer.canTake(this.aPlayer.getCurrentRoom().getItemList().getItem(vItemName))){
-           this.aPlayer.getCurrentRoom().getInventoryRoom().removeItemInventory(vItemName);
-           //Item vItem = this.aPlayer.getCurrentRoom().getInventoryRoom().getItem(vItemName);
-           //gui.println(vItem.getName());
-           this.aPlayer.getInventoryPlayer().addItem(this.aPlayer.getCurrentRoom().getItemList().getItem(vItemName).getName(), this.aPlayer.getCurrentRoom().getItemList().getItem(vItemName));
-           gui.println("You just took the "+vItemName);
-        }
-        else{
-            gui.println("This is too heavy for you,Drop some useless item dude.");
-        }//else()
-        
-    }
+    
     
     /**
      * Permet au joueur de se débarasser d'un item qui ne lui est plus utile.
@@ -446,7 +454,7 @@ public class GameEngine
         }//if()
         
         this.aPlayer.getInventoryPlayer().removeItemInventory(vItemName);
-        vCurrentRoom.getItemList().addItem(vToDrop.getName(),vToDrop);
+        vCurrentRoom.addItem(vToDrop.getName(),vToDrop);
         gui.println("You just dropped the item : " +vItemName);
         
     }

@@ -5,9 +5,8 @@ import java.util.Set;
 /**
  * 
  * Cette classe permet de gérer tout ce qui concerne le joueur
- * notamment les différents déplacements dans les Room.
  * @author Vadim Sitbon
- * @version 03.05.2019
+ * @version 08.05.2019
  */
 public class Player
  { 
@@ -15,7 +14,10 @@ public class Player
     private Room aCurrentRoom;
     private Stack<Room> aPreviousRooms;
     private ItemList aInvtPlayer;
-    private double aCurrentNumber;
+    private double aCurrentNumber = 10.0;
+    private UserInterface gui;
+    private Player aPlayer;
+    
     /**
      * Default constructor for objects of class Player
      * @param pName nom
@@ -27,22 +29,12 @@ public class Player
         this.aPreviousRooms = new Stack<Room>();
         this.aCurrentNumber = 10.0;
         this.aInvtPlayer = new ItemList();
+        
     } // Player()
     
-    /**
-     * Accesseur pour l'attribut aCurrentNumber
-     * @return l'attribut ( sa valeur ) power
-     */
-    public double getPowa()
+    public void setGUI(UserInterface userInterface)
     {
-       return this.aCurrentNumber;
-    }
-    
-    /**
-    * Permet de modifier la valeur de l'attribut CurrentNumber (charge max)
-    */
-    public void setPowa(final double pPowa){
-       this.aCurrentNumber = pPowa;
+        gui = userInterface;
     }
     
     /**
@@ -53,6 +45,47 @@ public class Player
     {
        this.aCurrentRoom = pCurrentRoom;
     }
+    
+    /*public void take(final Command pCommand)
+    {
+        String vName = pCommand.getSecondWord();
+        Item vItem = this.aCurrentRoom.aItm.get(vName);
+        if (vItem==null)
+        {
+            gui.println("there is not this item in this room dude");
+         
+            return ;
+        }
+        
+        if (canTake(vItem))
+        {
+        
+            this.aInvtPlayer.addItem(vName,vItem);
+        
+            this.aCurrentRoom.aItm.remove(vName);
+       
+            this.aInvtPlayer.addPoids(vItem.getWeight());
+         
+            
+        }
+    */
+    
+   /* public void drop(final Command pCommand)
+    {
+        String vName = pCommand.getSecondWord();
+        Item vItem = this.aCurrentRoom.aItm.get(vName);
+        if (vItem==null)
+        {
+            gui.println("you don't have this item moron");
+            return ;
+        }
+        
+            this.aInvtPlayer.removeItem(vName,vItem);
+            this.aCurrentRoom.aItm.put(vName, vItem);
+            this.aInvtPlayer.rmPoids(vItem.getWeight());
+            
+        
+    }*/
     
      /**
      * Gère de déplacement de Room du Player 
@@ -131,6 +164,6 @@ public class Player
      */
     public boolean canTake(final Item pItem)
     {
-       return ((this.aInvtPlayer.getTotalInventoryWeight()+ pItem.getWeight())>=this.aCurrentNumber);
+       return (( this.aInvtPlayer.getPoids()+ pItem.getWeight())>=this.aCurrentNumber);
     }
 } // Player

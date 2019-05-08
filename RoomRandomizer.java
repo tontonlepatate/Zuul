@@ -1,10 +1,11 @@
 import java.util.Random;
 
 /**
- * Décrivez votre classe RoomRandomizer ici.
- *
- * @author (votre nom)
- * @version (un numéro de version ou une date)
+ * Cette classe permet de selectionner des salles de manière aléatoire
+ * @author Vadim Sitbon
+ * @version 08.05.2019
+ * @param direction ignored
+ * @return A random room
  */
 public class RoomRandomizer
 {
@@ -18,6 +19,9 @@ public class RoomRandomizer
         this.aTab = this.aGameEngine.getTab();
     }
     
+    /**
+     * @return Room retourne une salle aléatoire
+     */
     public Room findRandomRoom()
     {
         Random vRandomizer = new Random();

@@ -20,8 +20,8 @@ public class Beamer extends Item
     }
     
     /**
-     * Renvoie la Room sauvegardée par le joueur.
-     * @return la Room sauvegardée dans le beamer.
+     * Renvoie la Room enregistrée
+     * @return la Room enregistrée
      */
     public Room getBeamerCharged(){
         return this.aBeamerCha;
@@ -29,7 +29,7 @@ public class Beamer extends Item
     
     /**
      * Permet de charger le beamer avec la Room voulue.
-     * @param pRoom Room que l'on souhaite sauvegarder dans le beamer.
+     * @param pRoom Room salle sue l'on veut enregistrer
      */
     public void setBeamerCharged(final Room pRoom){
         this.aBeamerCha=pRoom;

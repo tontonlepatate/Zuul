@@ -12,6 +12,7 @@ public class ItemList
 
 {
     private HashMap<String, Item> aItems;
+    private double aPoids;
     
     /**
      * Create an item list
@@ -19,16 +20,49 @@ public class ItemList
     public ItemList()
     {
         aItems = new HashMap<String, Item>();
+        this.aPoids = 0 ;
     }
     
     /**
-     * Ajoute un Item
+     * @param pD correspond au poid a ajouter de l'inventaire por un item donné
+     */
+    public void addPoids ( final double pD){
+        this.aPoids += pD;
+    }
+    
+    /**
+     * @param pD correspond au poid a enlever de l'inventaire por un item donné
+     */
+    public void rmPoids (final double pD){
+        this.aPoids -= pD;
+    }
+    
+    /**
+     * @return double pour le poids de l'item
+     */
+    public double getPoids (){
+        return this.aPoids;
+    }
+    
+    /**
+     * Ajoute un Item dans une hashmap
      * @param pDes invtr
      * @param pItem Item
+     * @param pItemName
      */
     public void addItem(final String pItemNam,final Item pItem)
     {
         this.aItems.put(pItemNam, pItem);
+    }
+    
+    /**
+     * sort un Item d'une hashmap
+     * @param pDes invtr
+     * @param pItem Item
+     */
+    public void removeItem(final String pItemNam,final Item pItem)
+    {
+        this.aItems.remove(pItemNam, pItem);
     }
     
     /**
@@ -68,6 +102,7 @@ public class ItemList
     
     /**
      * Permet de supprimer un item de l'inventaire dont il est question
+     * @param pItemName correspond au nom de l'item
      */
     public void removeItemInventory(final String pItemName)
     {
@@ -120,21 +155,18 @@ public class ItemList
         return null;
     }
     
+    /**
+     * @return String renvoie la contenance de l'inventaire
+     */
     public String getInventoryPlayerString() {
-        String vInventoryString = "Inventory:";
-        if(!this.aItems.isEmpty()){
-            Set<String> vItemNames = this.aItems.keySet(); 
-            for(String vItemName : vItemNames){
-                vInventoryString += "\n  " + this.aItems.get(vItemName).getItemDescription();
-            }
-
-            vInventoryString += "\nCarrying " + getTotalInventoryWeight();
-
-            return vInventoryString;
-        }      
-        else
-            return vInventoryString += "\n Is Empty";  
-
+        if (aItems.isEmpty())
+        {
+            return "\n"+"your inventory is empty";
+        }
+        String vs = "Your inventory : ";
+        Set<String> keys = aItems.keySet();
+        for (String vS : keys) vs += " "+vS;
+        return vs;
     }
     
     /**
@@ -151,4 +183,4 @@ public class ItemList
          }
          return vInventoryWeight;
     }
-} // ItemList
+}      // ItemList
